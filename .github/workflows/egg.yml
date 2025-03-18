@@ -1,12 +1,21 @@
 on: push
 
+permissions:
+    contents: write
+
 jobs:
     npm-build:
         runs-on: ubuntu-latest
+        
         steps:
         - uses: actions/checkout@v4
-        - run: pwd
-        - run: npm --version
-        - run: npm install
-        - run: npm install --save-dev @babel/plugin-proposal-private-property-in-object
-        - run: npm run build
+        
+        - run: |
+            npm install
+            npm install --save-dev @babel/plugin-proposal-private-property-in-object
+            npm run build
+        
+        - uses: JamesIves/github-pages-deploy-action@v4
+          with:
+            branch: gh-pages
+            folder: build
